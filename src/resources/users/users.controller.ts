@@ -10,8 +10,6 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Message } from 'src/utils/interfaces/Message.interface';
-import { User } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -35,6 +33,10 @@ export class UsersController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
+  }
+  @Patch('/softDelete/:id')
+  softDelete(@Param('id') id: string) {
+    return this.usersService.softDelete(+id);
   }
 
   @Delete(':id')
