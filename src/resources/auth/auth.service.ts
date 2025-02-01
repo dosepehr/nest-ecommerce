@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { normalizeMobileNumber } from 'src/utils/funcs/normalizeMobileNumber';
-import { hashPassword } from 'src/utils/funcs/password';
+import { comparePassword, hashPassword } from 'src/utils/funcs/password';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -34,19 +34,18 @@ export class AuthService {
     };
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async login(data: LoginDto) {
+    const user = await this.userRepository.findOne({
+      where: [{ mobile: data.identifier }, { name: data.identifier }],
+    });
+    if (!user) {
+      throw new NotFoundException('No user found with this identifier');
+    }
+    const passwordsMatch = await comparePassword(data.password, user.password);
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    if (!passwordsMatch)
+      throw new NotFoundException('No user found with this identifier');
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    return user;
   }
 }

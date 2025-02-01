@@ -1,4 +1,4 @@
-import { hash, genSalt } from 'bcrypt';
+import { hash, genSalt, compare } from 'bcrypt';
 export const hashPassword = async (
   password: string,
 ): Promise<string | undefined> => {
@@ -9,4 +9,9 @@ export const hashPassword = async (
   } catch (error) {
     console.error('Error hashing password:', error);
   }
+};
+
+export const comparePassword = async (plainPassword: string, hash: string) => {
+  const match = await compare(plainPassword, hash);
+  return match;
 };
