@@ -24,8 +24,8 @@ export class Address {
   address: string;
 
   @ManyToOne(() => User, (user) => user.addresses)
-    user: User;
-    
+  user: User;
+
   @CreateDateColumn()
   createdAt: Date;
 
