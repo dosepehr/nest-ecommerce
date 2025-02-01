@@ -8,3 +8,10 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
+
+
+
+// TODO
+// not sending password t client
+// add api features as a global handler
+// normilize phone number
