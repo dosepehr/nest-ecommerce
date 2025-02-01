@@ -1,10 +1,12 @@
 import { Exclude } from 'class-transformer';
+import { Address } from 'src/resources/address/entities/address.entity';
 import { UserRole } from 'src/utils/enums/UserRole.enum';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -26,6 +28,8 @@ export class User {
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
 
+  @OneToMany(() => Address, (address) => address.user)
+  addresses: Address[];
   @CreateDateColumn()
   createdAt: Date;
 
