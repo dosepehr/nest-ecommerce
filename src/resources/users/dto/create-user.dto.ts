@@ -6,6 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { normalizeMobileNumber } from 'src/utils/funcs/normalizeMobileNumber';
 export class CreateUserDto {
   @IsString()
   @MinLength(3)
@@ -15,7 +16,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   @Length(11, 11)
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }) => normalizeMobileNumber(value.trim()))
   mobile: string;
 
   @MinLength(8)
