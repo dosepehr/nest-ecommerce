@@ -13,11 +13,21 @@ export class UsersService {
   ) {}
   create(data: CreateUserDto) {
     const newUser = this.userRepository.create(data);
-    return this.userRepository.save(newUser);
+    this.userRepository.save(newUser);
+    return {
+      status: true,
+      message: 'user created successfully',
+    };
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    const users = await this.userRepository.find();
+    return {
+      status: true,
+      message: 'success',
+      length: users.length,
+      data: users,
+    };
   }
 
   findOne(id: number) {
