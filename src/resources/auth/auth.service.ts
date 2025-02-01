@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -19,15 +23,27 @@ export class AuthService {
     const mobile = normalizeMobileNumber(data.mobile);
     const password = await hashPassword(data.password);
     if (mobile && password) {
+      const mobileExists = await this.userRepository.findOneBy({ mobile });
+      if (mobileExists) {
+        throw new BadRequestException('A user with this mobile is exist');
+      }
+      const nameExists = await this.userRepository.findOneBy({
+        name: data.name,
+      });
+      if (nameExists) {
+        throw new BadRequestException('A user with this name is exist');
+      }
       const newUser = this.userRepository.create({
         mobile,
         name: data.name,
         password,
       });
       this.userRepository.save(newUser);
+      const token = this.jwtService.sign({ id: newUser.id });
       return {
         status: true,
-        message: 'user created successfully',
+        message: 'User created successfully',
+        token,
       };
     }
     return {
