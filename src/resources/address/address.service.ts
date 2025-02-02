@@ -16,19 +16,31 @@ export class AddressService {
     private readonly addressRepository: Repository<Address>,
   ) {}
 
-  create(createAddressDto: CreateAddressDto) {
-    return 'This action adds a new address';
+  async create(data: CreateAddressDto) {
+    const user = await this.userRepository.findOneBy({ id: data.user });
+    if (!user) {
+      return {};
+    }
+    const newAddress = this.addressRepository.create({ ...data, user });
+    return this.addressRepository.save(newAddress);
   }
 
   findAll() {
-    return `This action returns all address`;
+    return this.addressRepository.find({ relations: ['user'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} address`;
+  async findOne(id: number) {
+    const address = await this.addressRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+    if (!address) {
+      return {};
+    }
+    return address;
   }
 
-  update(id: number, updateAddressDto: UpdateAddressDto) {
+  update(id: number, data: UpdateAddressDto) {
     return `This action updates a #${id} address`;
   }
 
