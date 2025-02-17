@@ -7,6 +7,7 @@ import { UsersModule } from './resources/users/users.module';
 import { AuthModule } from './resources/auth/auth.module';
 import { AddressModule } from './resources/address/address.module';
 import { ProductsModule } from './resources/products/products.module';
+import { CategoriesModule } from './resources/categories/categories.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ProductsModule } from './resources/products/products.module';
     AuthModule,
     AddressModule,
     ProductsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
