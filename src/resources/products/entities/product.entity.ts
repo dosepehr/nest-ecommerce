@@ -1,5 +1,4 @@
 import { Category } from 'src/resources/categories/entities/category.entity';
-import { User } from 'src/resources/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -23,6 +22,9 @@ export class Product {
 
   @Column()
   stock: number;
+
+  @ManyToOne(() => Category, (category) => category.products)
+  category: Category;
 
   @CreateDateColumn()
   createdAt: Date;
