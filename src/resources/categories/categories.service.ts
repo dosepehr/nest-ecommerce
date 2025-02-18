@@ -17,7 +17,7 @@ export class CategoriesService {
   }
 
   findAll() {
-    return this.categoryRepository.find();
+    return this.categoryRepository.find({ relations: ['products'] });
   }
 
   findOne(id: number) {
