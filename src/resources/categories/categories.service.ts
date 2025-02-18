@@ -33,7 +33,6 @@ export class CategoriesService {
 
   async removeOnlyCategory(id: number) {
     const category = await this.findOne(id);
-    console.log(category);
     if (!category) {
       throw new NotFoundException('Not Found');
     }

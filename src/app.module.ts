@@ -8,6 +8,7 @@ import { AuthModule } from './resources/auth/auth.module';
 import { AddressModule } from './resources/address/address.module';
 import { ProductsModule } from './resources/products/products.module';
 import { CategoriesModule } from './resources/categories/categories.module';
+import { TicketsModule } from './resources/tickets/tickets.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CategoriesModule } from './resources/categories/categories.module';
     AddressModule,
     ProductsModule,
     CategoriesModule,
+    TicketsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
